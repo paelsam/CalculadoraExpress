@@ -1,43 +1,43 @@
 package Models;
 
-public class Game 
-{
-    
-    //! Declaración de variables sujeta a cambios
-    private static char[] operadores = {'+', '-', '*', '%'};
-    private char operador; 
+import java.util.Random;
+
+public class Game {
+
+    // ! Declaración de variables sujeta a cambios
+    private static String[] operadores = { "+", "-", "x", "%" };
+    private String operador;
     private int numeroUno, numeroDos, resultado;
-    private int aciertos, fallos; 
+    private int aciertos, fallos;
 
-    public void obtenerOperaciónAleatoria(int min, int max)
-    {
-        numeroUno = (int)(Math.random() * max) + min;        
-        numeroDos = (int)(Math.random() * max) + min;
-        operador = operadores[(int)(Math.random() * operadores.length)];
+    public void obtenerOperaciónAleatoria(int min, int max) {
+        Random random = new Random();
+        this.numeroUno = random.nextInt(max - min + 1) + min;
+        this.numeroDos = random.nextInt(max - min + 1) + min;
+        int indicealeatorio = random.nextInt(4);
+
+        this.operador = operadores[indicealeatorio];
+
     }
 
-    public int obtenerResultado()
-    {
-        switch (operador) 
-        {
-            case '+':
-                resultado = numeroUno + numeroDos;
+    public void obtenerResultado() {
+        switch (operador) {
+            case "+":
+                this.resultado = numeroUno + numeroDos;
                 break;
-            case '-':
-                resultado = numeroUno - numeroDos;
+            case "-":
+                this.resultado = numeroUno - numeroDos;
                 break;
-            case '*':
-                resultado = numeroUno * numeroDos;
+            case "x":
+                this.resultado = numeroUno * numeroDos;
                 break;
-            case '%': 
-                resultado = numeroUno % numeroDos;
+            case "%":
+                this.resultado = numeroUno % numeroDos;
                 break;
-            default:
-                throw new Error("Operador no encontrado", null);
+
         }
-        return resultado;
-    }
 
+    }
 
     public int getNumeroUno() {
         return this.numeroUno;
@@ -59,9 +59,17 @@ public class Game
         return this.fallos;
     }
 
-    public char getOperador() {
+    public String getOperador() {
         return this.operador;
     }
+
+    public void setAciertos(int aciertos) {
+        this.aciertos = aciertos;
+
+    }
+
+    public void setFallos(int fallos) {
+        this.fallos = fallos;
+    }
+
 }
-
-
