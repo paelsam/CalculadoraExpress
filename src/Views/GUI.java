@@ -109,6 +109,10 @@ public class GUI extends JFrame {
         lPuntuacion.setForeground(new Color(102, 106, 156));
         lAciertos.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
         lFallos.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
+        lNumAciertos.setForeground(new Color(8, 193, 24));
+        lNumAciertos.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
+        lNumFallos.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
+        lNumFallos.setForeground(Color.RED);
 
         tTiempo = new JTextField();
         tPuntuacion = new JTextField();
@@ -240,6 +244,14 @@ public class GUI extends JFrame {
 
     public void borrarSolucion() {
         lResultado.setText("");
+    }
+
+    public void setPuntuacion(String puntuacion) {
+        tPuntuacion.setText(puntuacion);
+    }
+
+    public int getPuntuacion() {
+        return Integer.parseInt(tPuntuacion.getText());
     }
 
     /*

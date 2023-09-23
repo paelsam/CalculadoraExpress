@@ -31,15 +31,21 @@ public class GameController {
 
         if (gui.getSolucion().equals(String.valueOf(game.getResultado()))) {
 
-            int aciertos = game.getAciertos() + 1;
-            game.setAciertos(aciertos);
+            game.setPuntuacion(game.getPuntuacion() + 100);
+            game.setAciertos(game.getAciertos() + 1);
             gui.setAciertos(game.getAciertos());
+            gui.setPuntuacion(String.valueOf(game.getPuntuacion()));
 
         } else if (!gui.getSolucion().equals("")) {
-            int fallos = game.getFallos() + 1;
 
-            game.setFallos(fallos);
+            game.setFallos(game.getFallos() + 1);
+            if (game.getPuntuacion() > 0) {
+                game.setPuntuacion(game.getPuntuacion() - 50);
+            }
+
             gui.setFallos(game.getFallos());
+            gui.setPuntuacion(String.valueOf(game.getPuntuacion()));
+
         }
         gui.borrarSolucion();
     }

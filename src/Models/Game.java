@@ -8,7 +8,7 @@ public class Game {
     private static String[] operadores = { "+", "-", "x", "%" };
     private String operador;
     private int numeroUno, numeroDos, resultado;
-    private int aciertos, fallos;
+    private int aciertos, fallos, puntuacion;
 
     public void obtenerOperaciónAleatoria(int min, int max) {
         Random random = new Random();
@@ -70,6 +70,14 @@ public class Game {
 
     public void setFallos(int fallos) {
         this.fallos = fallos;
+    }
+
+    public void setPuntuacion(int puntuacion) {
+        this.puntuacion = puntuacion;
+    }
+
+    public int getPuntuacion() {
+        return puntuacion;
     }
 
 }
