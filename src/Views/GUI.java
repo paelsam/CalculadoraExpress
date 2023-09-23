@@ -7,9 +7,11 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 
 import Controllers.GameController;
 
@@ -35,6 +37,8 @@ public class GUI extends JFrame {
     JButton botones[];
     JButton bEliminar, bIgual, bMenos;
     JLabel lNumero1, lOperacion, lNumero2, lResultado;
+    Timer temporizador;
+    int tiempoRestante = 60;
 
     public GUI() {
         setTitle("Calculadora Express");
@@ -44,10 +48,26 @@ public class GUI extends JFrame {
         setFont(new Font("Comic Sans MS", Font.BOLD, 18));
         setBackground(new Color(225, 228, 253));
         iniciarGUI();
+        temporizador.start();
 
     }
 
     public void iniciarGUI() {
+        temporizador = new Timer(1000, new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tiempoRestante--;
+                tTiempo.setText(String.valueOf(tiempoRestante));
+
+                if (tiempoRestante <= 0) {
+                    ((Timer) e.getSource()).stop();
+                    JOptionPane.showMessageDialog(null, "tiempo agotado");
+                }
+
+            }
+
+        });
         botones = new JButton[12];
 
         mbMenu = new JMenuBar();
@@ -143,14 +163,6 @@ public class GUI extends JFrame {
         pTiempoPuntuacion = new JPanel(new GridLayout(1, 4));
         pNorte = new JPanel(new BorderLayout());
 
-        // setPreferedSize(new Dimension(90, 80)) A todos los labels
-        // setHorizontal
-        // setHorizontalAlignment
-        // SwingConstants.CENTER
-        // setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray,
-        // Color.WHITE));
-        // lNum1.setVerticalAlignment(SwingConstants.CENTER)
-
         mbMenu.add(mMenu);
         mMenu.add(miIniciarJuego);
 
@@ -209,6 +221,7 @@ public class GUI extends JFrame {
         add(pValoresAleatorios, BorderLayout.CENTER);
         add(pEste, BorderLayout.EAST);
         add(pTiempoPuntuacion, BorderLayout.SOUTH);
+        // temporizador.start();
 
         setVisible(true);
 
