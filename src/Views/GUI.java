@@ -1,6 +1,7 @@
 package Views;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,24 +21,25 @@ import java.awt.GridLayout;
 
 public class GUI extends JFrame 
 {
+    private static int[] ordenBotones = {7,8,9,4,5,6,1,2,3,10,0,11};
     
     JMenuBar mbMenu;
     JMenu mMenu;
     JMenuItem miIniciarJuego;
-    JLabel lAciertos, lFallos, lNumAciertos, lNumFallos, lTiempo, lPuntuacion, lIgual;
+    JLabel lAciertos, lFallos, lNumAciertos, lNumFallos;
+    JLabel lTiempo, lPuntuacion, lIgual;
     JTextField tTiempo, tPuntuacion;
-    JPanel pAciertosFallos, pNumeros;
+    JPanel pAciertosFallos, pNumeros, pContenedorNumeros;
     JPanel pValoresAleatorios, pTiempoPuntuacion, pNorte;
-    JButton botones[];
-    JButton bEliminar, bIgual;
+    JButton botones[], bMenos;
     JLabel lNumero1, lOperacion, lNumero2, lResultado;
     
     public GUI() 
     {
         setTitle("Calculadora Express");
-        setSize(740, 320);
+        setSize(750, 320);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setResizable(false);
+        setResizable(true);
         setFont(new Font("Comic Sans MS",Font.BOLD,18));
         setBackground(new Color(225,228,253));
         iniciarGUI();
@@ -65,12 +67,18 @@ public class GUI extends JFrame
         lNumero2 = new JLabel();
         lResultado = new JLabel();
 
+        tTiempo = new JTextField();
+        tPuntuacion = new JTextField();
+
+
+        // Asignando el tamaño de los labels
         lNumero1.setPreferredSize(new Dimension(90, 80));
         lNumero2.setPreferredSize(new Dimension(90, 80));
         lOperacion.setPreferredSize(new Dimension(70, 80));
         lResultado.setPreferredSize(new Dimension(90, 80));
 
 
+        // Añadiendo fuentes e alineaciones a los labels
         lIgual.setFont(new Font("Comic Sans MS",Font.BOLD,18));
         lIgual.setHorizontalAlignment(SwingConstants.CENTER); lIgual.setVerticalAlignment(SwingConstants.CENTER);
         lNumero1.setHorizontalAlignment(SwingConstants.CENTER); lNumero1.setVerticalAlignment(SwingConstants.CENTER);
@@ -79,54 +87,61 @@ public class GUI extends JFrame
         lResultado.setHorizontalAlignment(SwingConstants.CENTER);
         lResultado.setVerticalAlignment(SwingConstants.CENTER);
 
-        
-
+        // Añadiendo bordes a los labels
+        lNumero2.setHorizontalAlignment(JLabel.CENTER);
+        lNumero2.setVerticalAlignment(JLabel.CENTER);
         lNumero1.setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE));
         lNumero2.setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE));
         lOperacion.setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE));
         lResultado.setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE));
 
+        // Alineando labels de aciertos y fallos
         lAciertos.setHorizontalAlignment(SwingConstants.CENTER); lAciertos.setVerticalAlignment(SwingConstants.CENTER);
         lFallos.setHorizontalAlignment(SwingConstants.CENTER); lFallos.setVerticalAlignment(SwingConstants.CENTER);
+        
+        // Asignando colores y fuentes a los labels de aciertos y fallos
         lAciertos.setForeground(new Color(8,193,24));
         lFallos.setForeground(Color.RED);
         lTiempo.setForeground(new Color(102,106,156));
         lPuntuacion.setForeground(new Color(102,106,156));
         lAciertos.setFont(new Font("Comic Sans MS",Font.BOLD,18));
         lFallos.setFont(new Font("Comic Sans MS",Font.BOLD,18));
-
-        tTiempo = new JTextField();
-        tPuntuacion = new JTextField();
-
-        for (int i = 0; i <= 9; i++)
+        
+        // Definiendo los botones
+        for (int i = 0; i < 12; i++)
         {   
             botones[i] = new JButton(Integer.toString(i));
             botones[i].setFont(new Font("Comic Sans MS",Font.BOLD,18));
             botones[i].setBackground(new Color(37, 40, 80));
             botones[i].setForeground(Color.WHITE);
+            
         }
-        botones[10] = new JButton("Eliminar");
+        botones[10] = new JButton(new ImageIcon(getClass().getResource("/assets/borrar.png")));
         botones[10].setFont(new Font("Comic Sans MS",Font.BOLD,18));
         botones[10].setBackground(new Color(37, 40, 80));
         botones[10].setForeground(Color.WHITE);
-        botones[11] = new JButton("Check");
+
+        botones[11] = new JButton(new ImageIcon(getClass().getResource("/assets/check.png")));
         botones[11].setFont(new Font("Comic Sans MS",Font.BOLD,18));
         botones[11].setBackground(new Color(37, 40, 80));
         botones[11].setForeground(Color.WHITE);
 
+        bMenos = new JButton("-");
+        bMenos.setFont(new Font("Comic Sans MS",Font.BOLD,18));
+        bMenos.setBackground(new Color(37, 40, 80));
+        bMenos.setForeground(Color.WHITE);
+
+        // Creado panel para centrar los labels
+        FlowLayout panel = new FlowLayout(FlowLayout.CENTER, 20, 20);
+        panel.setVgap(60);
+
+        // Definiendo páneles
         pAciertosFallos = new JPanel(new GridLayout(1, 4));
+        pContenedorNumeros = new JPanel( new BorderLayout() );
         pNumeros = new JPanel(new GridLayout(4,3, 4, 4));
-        pValoresAleatorios = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        pValoresAleatorios = new JPanel(panel);
         pTiempoPuntuacion = new JPanel(new GridLayout(1, 4));
         pNorte = new JPanel(new BorderLayout());
-
-
-        // setPreferedSize(new Dimension(90, 80)) A todos los labels
-        // setHorizontal
-        // setHorizontalAlignment
-        // SwingConstants.CENTER
-        // setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE));
-        // lNum1.setVerticalAlignment(SwingConstants.CENTER)
 
         mbMenu.add(mMenu);
         mMenu.add(miIniciarJuego);
@@ -135,12 +150,11 @@ public class GUI extends JFrame
         pAciertosFallos.add(lNumAciertos);
         pAciertosFallos.add(lFallos);
         pAciertosFallos.add(lNumFallos);
-    
-
-        pNumeros.add(botones[7]); pNumeros.add(botones[8]); pNumeros.add(botones[9]);
-        pNumeros.add(botones[4]); pNumeros.add(botones[5]); pNumeros.add(botones[6]);
-        pNumeros.add(botones[1]); pNumeros.add(botones[2]); pNumeros.add(botones[3]);
-        pNumeros.add(botones[10]); pNumeros.add(botones[0]); pNumeros.add(botones[11]);
+        
+        // Añadiendo los botones en el orden correcto
+        for ( int indice : ordenBotones ) {
+            pNumeros.add(botones[indice]);
+        }
 
         pValoresAleatorios.add(lNumero1); pValoresAleatorios.add(lOperacion);
         pValoresAleatorios.add(lNumero2); pValoresAleatorios.add(lIgual);
@@ -166,18 +180,19 @@ public class GUI extends JFrame
         pValoresAleatorios.setBackground(new Color(225, 228, 253));
         pTiempoPuntuacion.setBackground(new Color(225, 228, 253));
 
+        pContenedorNumeros.add(bMenos, BorderLayout.NORTH);
+        pContenedorNumeros.add(pNumeros, BorderLayout.CENTER);
 
         pNorte.add(mbMenu, BorderLayout.NORTH); pNorte.add(pAciertosFallos, BorderLayout.SOUTH);
 
         
         add(pNorte, BorderLayout.NORTH);
         add(pValoresAleatorios, BorderLayout.CENTER);
-        add(pNumeros, BorderLayout.EAST);
+        add(pContenedorNumeros, BorderLayout.EAST);
         add(pTiempoPuntuacion, BorderLayout.SOUTH);
 
+        pack();
         setVisible(true);
-        
-    
     }
 
 
