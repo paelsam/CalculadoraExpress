@@ -3,11 +3,10 @@ package Models;
 public class Game 
 {
     
-    //! Declaración de variables sujeta a cambios
     private static char[] operadores = {'+', '-', '*', '%'};
     private char operador; 
     private int numeroUno, numeroDos, resultado;
-    private int aciertos, fallos; 
+    private int aciertos, fallos, puntuacion; 
 
     public void obtenerOperaciónAleatoria(int min, int max)
     {
@@ -61,6 +60,14 @@ public class Game
 
     public char getOperador() {
         return this.operador;
+    }
+
+    public int getPuntuacion() {
+        return this.puntuacion;
+    }
+
+    public void setPuntuacion(int puntuacion) {
+        this.puntuacion = puntuacion;
     }
 }
 

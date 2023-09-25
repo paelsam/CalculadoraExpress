@@ -26,7 +26,8 @@ public class GUI extends JFrame
     JMenuBar mbMenu;
     JMenu mMenu;
     JMenuItem miIniciarJuego;
-    JLabel lAciertos, lFallos, lNumAciertos, lNumFallos;
+    JLabel lAciertos, lFallos;
+    JLabel lNumAciertos, lNumFallos;
     JLabel lTiempo, lPuntuacion, lIgual;
     JTextField tTiempo, tPuntuacion;
     JPanel pAciertosFallos, pNumeros, pContenedorNumeros;
@@ -70,6 +71,10 @@ public class GUI extends JFrame
         tTiempo = new JTextField();
         tPuntuacion = new JTextField();
 
+        tTiempo.setEditable(false);
+        tPuntuacion.setEditable(false);
+
+        bMenos = new JButton("-");
 
         // Asignando el tamaño de los labels
         lNumero1.setPreferredSize(new Dimension(90, 80));
@@ -87,25 +92,38 @@ public class GUI extends JFrame
         lResultado.setHorizontalAlignment(SwingConstants.CENTER);
         lResultado.setVerticalAlignment(SwingConstants.CENTER);
 
-        // Añadiendo bordes a los labels
-        lNumero2.setHorizontalAlignment(JLabel.CENTER);
-        lNumero2.setVerticalAlignment(JLabel.CENTER);
-        lNumero1.setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE));
+        // Añadiendo bordes y estilo a los labels
+        lNumero2.setHorizontalAlignment(JLabel.CENTER); lNumero2.setVerticalAlignment(JLabel.CENTER);
+        lNumero2.setFont(new Font("Comic Sans MS",Font.BOLD,18));
+
+        lNumero1.setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE)); 
         lNumero2.setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE));
-        lOperacion.setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE));
+        lNumero1.setFont(new Font("Comic Sans MS",Font.BOLD,18));
+
+        lOperacion.setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE)); 
+        lOperacion.setFont(new Font("Comic Sans MS",Font.BOLD,18));
+        
         lResultado.setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE));
+        lResultado.setFont(new Font("Comic Sans MS",Font.BOLD,18));
 
         // Alineando labels de aciertos y fallos
         lAciertos.setHorizontalAlignment(SwingConstants.CENTER); lAciertos.setVerticalAlignment(SwingConstants.CENTER);
+        // lNumAciertos.setHorizontalAlignment(SwingConstants.CENTER); lNumAciertos.setVerticalAlignment(SwingConstants.CENTER);
         lFallos.setHorizontalAlignment(SwingConstants.CENTER); lFallos.setVerticalAlignment(SwingConstants.CENTER);
-        
-        // Asignando colores y fuentes a los labels de aciertos y fallos
+        // lNumFallos.setHorizontalAlignment(SwingConstants.CENTER); lNumFallos.setVerticalAlignment(SwingConstants.CENTER);
+
+
+        // Asignando colores y fuentes a los labels 
         lAciertos.setForeground(new Color(8,193,24));
         lFallos.setForeground(Color.RED);
+        lNumAciertos.setForeground(new Color(8,193,24));
+        lNumFallos.setForeground(Color.RED);
         lTiempo.setForeground(new Color(102,106,156));
         lPuntuacion.setForeground(new Color(102,106,156));
         lAciertos.setFont(new Font("Comic Sans MS",Font.BOLD,18));
         lFallos.setFont(new Font("Comic Sans MS",Font.BOLD,18));
+        lNumAciertos.setFont(new Font("Comic Sans MS",Font.BOLD,18));
+        lNumFallos.setFont(new Font("Comic Sans MS",Font.BOLD,18));
         
         // Definiendo los botones
         for (int i = 0; i < 12; i++)
@@ -126,7 +144,6 @@ public class GUI extends JFrame
         botones[11].setBackground(new Color(37, 40, 80));
         botones[11].setForeground(Color.WHITE);
 
-        bMenos = new JButton("-");
         bMenos.setFont(new Font("Comic Sans MS",Font.BOLD,18));
         bMenos.setBackground(new Color(37, 40, 80));
         bMenos.setForeground(Color.WHITE);
@@ -191,12 +208,44 @@ public class GUI extends JFrame
         add(pContenedorNumeros, BorderLayout.EAST);
         add(pTiempoPuntuacion, BorderLayout.SOUTH);
 
-        pack();
+        setAciertos(2);
+        setFallos(4);
+
+        // pack();
         setVisible(true);
     }
 
+    public void setAciertos(int aciertos) {
+        lNumAciertos.setText(Integer.toString(aciertos));
+    }
 
+    public void setFallos(int fallos) {
+        lNumFallos.setText(Integer.toString(fallos));
+    }
 
+    public void setNumero1(int numero1) {
+        lNumero1.setText(Integer.toString(numero1));
+    }
+
+    public void setNumero2(int numero2) {
+        lNumero2.setText(Integer.toString(numero2));
+    }
+
+    public void setOperador(char operador) {
+        lOperacion.setText(Character.toString(operador));
+    }
+    
+    public void setResultado(String resultado) {
+        lResultado.setText(lResultado.getText() + resultado);
+    }
+
+    public void setPuntuacion(int puntuacion) {
+        tPuntuacion.setText(Integer.toString(puntuacion));
+    }
+
+    public void setTiempoRestante(int tiempoRestante) {
+        tTiempo.setText(Integer.toString(tiempoRestante));
+    }
 
 
 }
