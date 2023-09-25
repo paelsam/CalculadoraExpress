@@ -2,17 +2,15 @@ package Views;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JOptionPane;
-import javax.swing.Timer;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import Controllers.GameController;
 
-public class GestionEventos implements ActionListener {
+public class GestionEventos implements ActionListener, KeyListener {
 
     GUI gui;
-    // int tiempoRestate = 60;
-    // Timer temporizador;
+    boolean bandera = false;
 
     public GestionEventos(GUI gui) {
         this.gui = gui;
@@ -21,8 +19,7 @@ public class GestionEventos implements ActionListener {
         }
         gui.miIniciarJuego.addActionListener(this);
         gui.bMenos.addActionListener(this);
-        // temporizador = new Timer(1000, this);
-        // temporizador.start();
+        gui.addKeyListener(this);
 
     }
 
@@ -30,38 +27,58 @@ public class GestionEventos implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         for (int i = 0; i < 10; i++) {
-            if (e.getSource() == gui.botones[i]) {
+            if (e.getSource() == gui.botones[i] && bandera) {
                 gui.setSolucion(gui.getSolucion().concat(String.valueOf(i)));
             }
         }
 
-        if (e.getSource() == gui.botones[11]) {
+        if (e.getSource() == gui.botones[11] && bandera) {
 
             GameController.Jugar();
             GameController.ImprimirEcuacion();
         }
         if (e.getSource() == gui.miIniciarJuego) {
+            gui.startTemporizador();
 
             GameController.ImprimirEcuacion();
+            bandera = true;
         }
-        if (e.getSource() == gui.botones[10]) {
+        if (e.getSource() == gui.botones[10] && bandera) {
             gui.borrarSolucion();
         }
 
-        if (e.getSource() == gui.bMenos) {
+        if (e.getSource() == gui.bMenos && bandera) {
             gui.setSolucion("-" + gui.getSolucion());
         }
-        /*
-         * tiempoRestate--;
-         * gui.tTiempo.setText(String.valueOf(tiempoRestate));
-         * 
-         * if (tiempoRestate <= 0) {
-         * ((Timer) e.getSource()).stop();
-         * JOptionPane.showMessageDialog(null, "tiempo agotado");
-         * }
-         */
 
-        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (Character.isDigit(e.getKeyChar())) {
+            gui.setSolucion(gui.getSolucion().concat(String.valueOf(e.getKeyChar())));
+
+        }
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            GameController.Jugar();
+            GameController.ImprimirEcuacion();
+        }
+        if (e.getKeyCode() == 8) {
+
+            gui.borrarSolucion();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'keyReleased'");
     }
 
 }

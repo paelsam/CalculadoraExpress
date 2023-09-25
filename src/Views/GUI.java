@@ -1,13 +1,15 @@
 package Views;
 
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
+
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -18,12 +20,9 @@ import Controllers.GameController;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class GUI extends JFrame {
 
@@ -38,36 +37,21 @@ public class GUI extends JFrame {
     JButton bEliminar, bIgual, bMenos;
     JLabel lNumero1, lOperacion, lNumero2, lResultado;
     Timer temporizador;
-    int tiempoRestante = 60;
 
     public GUI() {
         setTitle("Calculadora Express");
         setSize(740, 320);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
         setResizable(false);
         setFont(new Font("Comic Sans MS", Font.BOLD, 18));
         setBackground(new Color(225, 228, 253));
         iniciarGUI();
-        temporizador.start();
 
     }
 
     public void iniciarGUI() {
-        temporizador = new Timer(1000, new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tiempoRestante--;
-                tTiempo.setText(String.valueOf(tiempoRestante));
-
-                if (tiempoRestante <= 0) {
-                    ((Timer) e.getSource()).stop();
-                    JOptionPane.showMessageDialog(null, "tiempo agotado");
-                }
-
-            }
-
-        });
+        temporizador = new Timer(1000, GameController.actionListener);
         botones = new JButton[12];
 
         mbMenu = new JMenuBar();
@@ -95,7 +79,7 @@ public class GUI extends JFrame {
         lNumero2.setForeground(new Color(102, 106, 156));
         lResultado = new JLabel();
         lResultado.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
-        lResultado.setForeground(new Color(102, 106, 156));
+        lResultado.setForeground(new Color(255, 184, 51));
 
         lNumero1.setPreferredSize(new Dimension(90, 80));
         lNumero2.setPreferredSize(new Dimension(90, 80));
@@ -143,13 +127,15 @@ public class GUI extends JFrame {
             botones[i].setBackground(new Color(37, 40, 80));
             botones[i].setForeground(Color.WHITE);
         }
-        botones[10] = new JButton("Eliminar");
+        Icon icVisto = new ImageIcon(getClass().getResource("visto.png"));
+        Icon icEliminar = new ImageIcon(getClass().getResource("eliminar.png"));
+        botones[10] = new JButton("", icEliminar);
         botones[10].setFont(new Font("Comic Sans MS", Font.BOLD, 18));
-        botones[10].setBackground(new Color(37, 40, 80));
+        botones[10].setBackground(Color.WHITE);
         botones[10].setForeground(Color.WHITE);
-        botones[11] = new JButton("Check");
+        botones[11] = new JButton("", icVisto);
         botones[11].setFont(new Font("Comic Sans MS", Font.BOLD, 18));
-        botones[11].setBackground(new Color(37, 40, 80));
+        botones[11].setBackground(Color.WHITE);
         botones[11].setForeground(Color.WHITE);
         bMenos = new JButton("-");
         bMenos.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
@@ -221,9 +207,10 @@ public class GUI extends JFrame {
         add(pValoresAleatorios, BorderLayout.CENTER);
         add(pEste, BorderLayout.EAST);
         add(pTiempoPuntuacion, BorderLayout.SOUTH);
-        // temporizador.start();
 
         setVisible(true);
+        setFocusable(true);
+        requestFocus();
 
     }
 
@@ -267,35 +254,16 @@ public class GUI extends JFrame {
         return Integer.parseInt(tPuntuacion.getText());
     }
 
-    /*
-     * class ManejaEventos implements ActionListener {
-     * 
-     * public ManejaEventos() {
-     * }
-     * 
-     * @Override
-     * public void actionPerformed(ActionEvent e) {
-     * for (int i = 0; i < 10; i++) {
-     * if (e.getSource() == botones[i]) {
-     * setSolucion(i);
-     * }
-     * }
-     * 
-     * if (e.getSource() == botones[11]) {
-     * GameController.Jugar();
-     * GameController.ImprimirEcuacion();
-     * }
-     * if (e.getSource() == miIniciarJuego) {
-     * GameController.ImprimirEcuacion();
-     * }
-     * if (e.getSource() == botones[10]) {
-     * borrarSolucion();
-     * }
-     * throw new
-     * UnsupportedOperationException("Unimplemented method 'actionPerformed'");
-     * }
-     * 
-     * }/*
-     */
+    public String getTiempo() {
+        return tTiempo.getText();
+    }
+
+    public void setTiempo(String tiempo) {
+        this.tTiempo.setText(tiempo);
+    }
+
+    public void startTemporizador() {
+        this.temporizador.start();
+    }
 
 }

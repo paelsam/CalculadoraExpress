@@ -1,22 +1,62 @@
 package Controllers;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import javax.swing.JOptionPane;
+
 import Models.Game;
 import Views.GUI;
 import Views.GestionEventos;
+import javax.swing.Timer;
 
 public class GameController {
     static Game game;
     static GUI gui;
     static GestionEventos gestiongui;
+    public static ActionListener actionListener;
+    static int tiempoRestante;
 
     public static void iniciar() {
+        actionListener = new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                tiempoRestante--;
+                gui.setTiempo(String.valueOf(tiempoRestante));
+
+                if (tiempoRestante <= 0) {
+                    ((Timer) e.getSource()).stop();
+                    int numero = JOptionPane.showConfirmDialog(null,
+                            "Se acabo el tiempo:(\nAsiertos en esta partida " + game.getAciertos()
+                                    + "\nFallos en esta partida: "
+                                    + game.getFallos() + "\nPuntos en esta partida:" + game.getPuntuacion()
+                                    + "\n¿Desea Continuar jugando otra partida?",
+                            "time over", JOptionPane.YES_NO_OPTION);
+                    if (numero == 0) {
+                        tiempoRestante = 10;
+                        gui.startTemporizador();
+                    } else {
+                        gui.dispose();
+                        iniciar();
+                    }
+
+                }
+            }
+
+        };
         game = new Game();
         gui = new GUI();
         gestiongui = new GestionEventos(gui);
         game.setAciertos(0);
         game.setFallos(0);
+        game.setPuntuacion(0);
+        tiempoRestante = 10;
 
-    }
+    };
 
     public static void ImprimirEcuacion() {
         game.obtenerOperaciónAleatoria(1, 400);
