@@ -8,7 +8,7 @@ import Views.GUI;
 
 public class GameController {
     
-    static private int tiempoRestante = 10;
+    static private int tiempoRestante = 60;
     static GUI gui;
     static Game game;
     static Timer temporizador;
@@ -32,7 +32,7 @@ public class GameController {
                 } else {
                     temporizador.cancel();
                     temporizador.purge();
-                    gameOver();
+                    juegoTerminado();
                 }
             }
         }, 0, 1000);
@@ -67,9 +67,17 @@ public class GameController {
         }
     }
 
-     public static void gameOver() {
+    public static void reiniciar() {
+
+        temporizador = new Timer();
+        tiempoRestante = 60;
+        game.setAciertos(0); game.setFallos(0); game.setPuntuacion(0);
+        gui.setAciertos(0); gui.setFallos(0); gui.setPuntuacion(0);
+        gui.setNumero1(0); gui.setNumero2(0); gui.toggleMIIniciarJuego();
+    }
+
+     public static void juegoTerminado() {
         int respuesta = gui.gameOver();
-        
         
         if ( respuesta == 0 ) {
             // Restableciendo el timer
@@ -77,7 +85,9 @@ public class GameController {
             tiempoRestante = 60;
             iniciarJuego();
             iniciarCuentaRegresiva();
-        } 
+        } else {
+            reiniciar();
+        }
 
     }
 }
