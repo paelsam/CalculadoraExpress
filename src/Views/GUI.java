@@ -18,6 +18,11 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.stream.IntStream;
 
 public class GUI extends JFrame 
 {
@@ -43,8 +48,6 @@ public class GUI extends JFrame
         setResizable(true);
         setFont(new Font("Comic Sans MS",Font.BOLD,18));
         setBackground(new Color(225,228,253));
-        iniciarGUI();
-
     }
 
     public void iniciarGUI()
@@ -105,12 +108,11 @@ public class GUI extends JFrame
         
         lResultado.setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE));
         lResultado.setFont(new Font("Comic Sans MS",Font.BOLD,18));
+        lResultado.setForeground(new Color(255, 204, 0));
 
         // Alineando labels de aciertos y fallos
         lAciertos.setHorizontalAlignment(SwingConstants.CENTER); lAciertos.setVerticalAlignment(SwingConstants.CENTER);
-        // lNumAciertos.setHorizontalAlignment(SwingConstants.CENTER); lNumAciertos.setVerticalAlignment(SwingConstants.CENTER);
         lFallos.setHorizontalAlignment(SwingConstants.CENTER); lFallos.setVerticalAlignment(SwingConstants.CENTER);
-        // lNumFallos.setHorizontalAlignment(SwingConstants.CENTER); lNumFallos.setVerticalAlignment(SwingConstants.CENTER);
 
 
         // Asignando colores y fuentes a los labels 
@@ -208,10 +210,17 @@ public class GUI extends JFrame
         add(pContenedorNumeros, BorderLayout.EAST);
         add(pTiempoPuntuacion, BorderLayout.SOUTH);
 
-        setAciertos(2);
-        setFallos(4);
+        ActionEventHandler event = new ActionEventHandler();
 
-        // pack();
+        // Añadiendo EventListeners
+        for ( JButton boton : botones ) {
+            boton.addActionListener(event);
+        }
+        
+        lResultado.addKeyListener(event);
+        bMenos.addActionListener(event);
+
+        pack();
         setVisible(true);
     }
 
@@ -239,6 +248,10 @@ public class GUI extends JFrame
         lResultado.setText(lResultado.getText() + resultado);
     }
 
+    public void deleteResultado() {
+        lResultado.setText("");
+    }
+
     public void setPuntuacion(int puntuacion) {
         tPuntuacion.setText(Integer.toString(puntuacion));
     }
@@ -247,5 +260,51 @@ public class GUI extends JFrame
         tTiempo.setText(Integer.toString(tiempoRestante));
     }
 
+    //! Modular 
+    public class ActionEventHandler implements ActionListener, KeyListener {
+    
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if ( e.getSource() == bMenos ) {
+                if ( !lResultado.getText().contains("-") )
+                    lResultado.setText( "-" + lResultado.getText() );
+            }
+
+            for ( int indice : ordenBotones )  
+            {   
+                if ( e.getSource() == botones[10] ) {
+                    deleteResultado();
+                    break;
+                }
+                if ( e.getSource() == botones[11] ) {
+                    //! Modificar
+                    deleteResultado();
+                    break;
+                }
+                if ( e.getSource() == botones[indice] ) {
+                    setResultado( botones[indice].getText() );
+                    break;
+                }
+            }
+        }
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'keyPressed'");
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'keyReleased'");
+        }
+    }
 
 }
