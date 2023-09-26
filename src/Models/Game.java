@@ -69,6 +69,15 @@ public class Game
     public void setPuntuacion(int puntuacion) {
         this.puntuacion = puntuacion;
     }
+
+    public void setAciertos(int aciertos) {
+        this.aciertos = aciertos;
+    }
+
+     public void setFallos(int fallos) {
+        this.fallos = fallos;
+    }
+    
 }
 
 

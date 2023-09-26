@@ -1,9 +1,8 @@
-import Views.GUI;
+import Controllers.GameController;
 
 public class App {
     public static void main(String[] args) throws Exception {
 
-        GUI interfaz = new GUI();
-        interfaz.iniciarGUI();
+        GameController.iniciarVentana();
     }
 }

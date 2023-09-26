@@ -8,9 +8,12 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import Controllers.GameController;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -22,7 +25,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.stream.IntStream;
 
 public class GUI extends JFrame 
 {
@@ -45,8 +47,7 @@ public class GUI extends JFrame
         setTitle("Calculadora Express");
         setSize(750, 320);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setResizable(true);
-        setFont(new Font("Comic Sans MS",Font.BOLD,18));
+        setResizable(false);
         setBackground(new Color(225,228,253));
     }
 
@@ -217,8 +218,10 @@ public class GUI extends JFrame
             boton.addActionListener(event);
         }
         
-        lResultado.addKeyListener(event);
+        //? Añadimos el key listener a un textField porque con los labels no funciona
+        tPuntuacion.addKeyListener(event);
         bMenos.addActionListener(event);
+        miIniciarJuego.addActionListener(event);
 
         pack();
         setVisible(true);
@@ -248,6 +251,10 @@ public class GUI extends JFrame
         lResultado.setText(lResultado.getText() + resultado);
     }
 
+    public String getResultado() {
+        return lResultado.getText();
+    }
+
     public void deleteResultado() {
         lResultado.setText("");
     }
@@ -260,14 +267,32 @@ public class GUI extends JFrame
         tTiempo.setText(Integer.toString(tiempoRestante));
     }
 
+    public int gameOver() {
+        String mensaje = "Aciertos en esta partida :| " + lNumAciertos.getText() + 
+                            "\nFallos en esta partida: " + lNumFallos.getText()  + 
+                            "\nPuntos en esta partida: " + tPuntuacion.getText() + 
+                            "\n¿Deseas continuar jugando otra partida?";
+        return JOptionPane.showConfirmDialog(this, mensaje, "Partida terminada", JOptionPane.YES_NO_OPTION);
+    }
+
     //! Modular 
     public class ActionEventHandler implements ActionListener, KeyListener {
-    
+
+
         @Override
         public void actionPerformed(ActionEvent e) {
+
+            // tPuntuacion.requestFocus();
+
             if ( e.getSource() == bMenos ) {
                 if ( !lResultado.getText().contains("-") )
                     lResultado.setText( "-" + lResultado.getText() );
+            }
+
+            if ( e.getSource() == miIniciarJuego ) {
+                GameController.iniciarJuego();
+                GameController.iniciarCuentaRegresiva();
+                miIniciarJuego.setEnabled(false);
             }
 
             for ( int indice : ordenBotones )  
@@ -277,8 +302,10 @@ public class GUI extends JFrame
                     break;
                 }
                 if ( e.getSource() == botones[11] ) {
-                    //! Modificar
-                    deleteResultado();
+                    GameController.verificarResultado();
+                    GameController.iniciarJuego();
+                    // Se borra después de inciar el juego
+                    deleteResultado(); 
                     break;
                 }
                 if ( e.getSource() == botones[indice] ) {
@@ -288,23 +315,24 @@ public class GUI extends JFrame
             }
         }
 
-        @Override
-        public void keyTyped(KeyEvent e) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
-        }
-
+        
         @Override
         public void keyPressed(KeyEvent e) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'keyPressed'");
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_1:
+                    setResultado("1");
+                break;
+            
+                default:
+                    break;
+            }
         }
+            
+        @Override
+        public void keyTyped(KeyEvent e) {}
 
         @Override
-        public void keyReleased(KeyEvent e) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'keyReleased'");
-        }
+        public void keyReleased(KeyEvent e) {}
     }
 
 }
