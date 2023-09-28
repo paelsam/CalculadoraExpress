@@ -45,8 +45,8 @@ public class GameController {
 
             @Override
             public void run() {
-                System.out.println("Tiempo restante: " + tiempoRestante);
                 if (tiempoRestante > 0) {
+                    System.out.println("Tiempo restante: " + tiempoRestante);
                     tiempoRestante--;
                     gui.setTiempoRestante(tiempoRestante);
                 } else {

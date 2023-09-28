@@ -25,16 +25,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-/**
- * clase GUI: clase que hereda de JFrame y es la que genera la vista o el
- * frontend del juego. Esta clase usa a la clase GameController
- * 
- * @version 1.0
- * 
- */
-public class GUI extends JFrame {
-    private static int[] ordenBotones = { 7, 8, 9, 4, 5, 6, 1, 2, 3, 10, 0, 11 };
-
+public class GUI extends JFrame 
+{
+    private static int[] ordenBotones = {7,8,9,4,5,6,1,2,3,10,0,11};
+    
     // Páneles
     JPanel pAciertosFallos, pNumeros, pContenedorNumeros;
     JPanel pValoresAleatorios, pTiempoPuntuacion, pNorte;
@@ -67,11 +61,8 @@ public class GUI extends JFrame {
         setBackground(new Color(225, 228, 253));
     }
 
-    /**
-     * funcion que inicializa los componentes de la gui
-     */
-    public void iniciarGUI() {
-        // instanciacion de los componentes de la gui
+    public void iniciarGUI()
+    {
         botones = new JButton[12];
         bMenos = new JButton("-");
 
@@ -126,15 +117,14 @@ public class GUI extends JFrame {
         lResultado.setVerticalAlignment(SwingConstants.CENTER);
 
         // Añadiendo bordes y estilo a los labels
-        lNumero2.setHorizontalAlignment(JLabel.CENTER);
-        lNumero2.setVerticalAlignment(JLabel.CENTER);
-        lNumero2.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
-        lNumero1.setForeground(new Color(102, 106, 156));
-        lNumero2.setForeground(new Color(102, 106, 156));
-        lOperacion.setForeground(new Color(102, 106, 156));
+        lNumero2.setHorizontalAlignment(JLabel.CENTER); lNumero2.setVerticalAlignment(JLabel.CENTER);
+        lNumero2.setFont(new Font("Comic Sans MS",Font.BOLD,18));
+        lNumero1.setForeground(new Color(102,106,156));
+        lNumero2.setForeground(new Color(102,106,156));
+        lOperacion.setForeground(new Color(102,106,156));
 
-        // dando belleza a algunos componentes de la gui
-        lNumero1.setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE));
+
+        lNumero1.setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE)); 
         lNumero2.setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE));
         lNumero1.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
 
@@ -213,11 +203,8 @@ public class GUI extends JFrame {
             pNumeros.add(botones[indice]);
         }
 
-        // agregando componentes al panel de valores aleatorios
-        pValoresAleatorios.add(lNumero1);
-        pValoresAleatorios.add(lOperacion);
-        pValoresAleatorios.add(lNumero2);
-        pValoresAleatorios.add(lIgual);
+        pValoresAleatorios.add(lNumero1); pValoresAleatorios.add(lOperacion);
+        pValoresAleatorios.add(lNumero2); pValoresAleatorios.add(lIgual);
         pValoresAleatorios.add(lResultado);
 
         // dando formato y ubicacion a algunos componentes de la gui
@@ -227,9 +214,7 @@ public class GUI extends JFrame {
 
         lPuntuacion.setHorizontalAlignment(SwingConstants.CENTER);
         lPuntuacion.setVerticalAlignment(SwingConstants.CENTER);
-        lPuntuacion.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
-
-        // agregando algunos componentes al panel del tiempo y la puntuacion
+        lPuntuacion.setFont(new Font("Comic Sans MS",Font.BOLD,18)); 
 
         pTiempoPuntuacion.add(lTiempo);
         pTiempoPuntuacion.add(tTiempo);
@@ -250,21 +235,17 @@ public class GUI extends JFrame {
         pContenedorNumeros.add(bMenos, BorderLayout.NORTH);
         pContenedorNumeros.add(pNumeros, BorderLayout.CENTER);
 
-        // adicionando el menu al panel superior
-        pNorte.add(mbMenu, BorderLayout.NORTH);
-        pNorte.add(pAciertosFallos, BorderLayout.SOUTH);
-
-        // adicionando los paneles al frame
+        pNorte.add(mbMenu, BorderLayout.NORTH); pNorte.add(pAciertosFallos, BorderLayout.SOUTH);
+        
         add(pNorte, BorderLayout.NORTH);
         add(pValoresAleatorios, BorderLayout.CENTER);
         add(pContenedorNumeros, BorderLayout.EAST);
         add(pTiempoPuntuacion, BorderLayout.SOUTH);
 
-        // creando un objeto gestionador de eventos
         ActionEventHandler event = new ActionEventHandler();
 
         // Añadiendo EventListeners
-        for (JButton boton : botones) {
+        for ( JButton boton : botones ) {
             boton.setFocusable(false);
             boton.addActionListener(event);
         }
@@ -334,13 +315,7 @@ public class GUI extends JFrame {
     public void setOperador(char operador) {
         lOperacion.setText(Character.toString(operador));
     }
-
-    /**
-     * funcion que configura el texto de la etiqueta resultado de la gui
-     * 
-     * @param resultado - cadena de texto que representa el resultado de la ecuacion
-     *                  matematica
-     */
+    
     public void setResultado(String resultado) {
         lResultado.setText(lResultado.getText() + resultado);
     }
@@ -399,24 +374,18 @@ public class GUI extends JFrame {
 
     }
 
-    /*
-     * clase que implementa las clases abstractas ActionListener y KeyListener para
-     * el manejo de eventos
-     */
+    //! Modular 
     public class ActionEventHandler implements ActionListener, KeyListener {
 
-        /**
-         * metodo abstracto que implenta los metodos abstractos de eventos de accion y
-         * gestiona los eventos de los botones de la gui.
-         */
+
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            if (e.getSource() == bMenos) {
-                if (!lResultado.getText().contains("-"))
-                    lResultado.setText("-" + lResultado.getText());
-                else
-                    lResultado.setText(lResultado.getText().substring(1));
+            if ( e.getSource() == bMenos ) {
+                if ( !lResultado.getText().contains("-") )
+                    lResultado.setText( "-" + lResultado.getText() );
+                else 
+                    lResultado.setText( lResultado.getText().substring(1) );
             }
 
             if (e.getSource() == miIniciarJuego) {
@@ -424,6 +393,7 @@ public class GUI extends JFrame {
                 GameController.iniciarCuentaRegresiva();
                 toggleMIIniciarJuego();
                 botones[11].setEnabled(true);
+                return;
             }
 
             for (int indice : ordenBotones) {
@@ -434,8 +404,8 @@ public class GUI extends JFrame {
                 if (e.getSource() == botones[11]) {
                     GameController.verificarResultado();
                     GameController.iniciarJuego();
-
-                    deleteResultado();
+                    // Se borra después de inciar el juego
+                    deleteResultado(); 
                     break;
                 }
                 if (e.getSource() == botones[indice]) {
@@ -454,12 +424,12 @@ public class GUI extends JFrame {
         public void keyPressed(KeyEvent e) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_ENTER:
-
-                    if (!miIniciarJuego.isEnabled()) {
+                    // No funciona hasta hasta que el menuitem esté deshabilado
+                    if ( !miIniciarJuego.isEnabled() ) {
                         GameController.verificarResultado();
                         GameController.iniciarJuego();
-
-                        deleteResultado();
+                        // Se borra después de inciar el juego
+                        deleteResultado(); 
                     }
                     break;
                 case KeyEvent.VK_BACK_SPACE:
@@ -471,11 +441,11 @@ public class GUI extends JFrame {
                 default:
                     break;
             }
-
-            for (int i = 0; i <= 9; i++) {
-                int keyCodeE = KeyEvent.getExtendedKeyCodeForChar(botones[i].getText().charAt(0));
-                if (keyCodeE == e.getKeyCode()) {
-                    setResultado(botones[i].getText());
+            // El 1 al 9 porque los botones 10 y 11 no son números
+            for ( int i = 0; i <= 9; i++ ) {
+                int keyCodeE = KeyEvent.getExtendedKeyCodeForChar( botones[i].getText().charAt(0) );
+                if ( keyCodeE == e.getKeyCode() ) {
+                    setResultado( botones[i].getText() );
                     break;
                 }
             }
@@ -489,5 +459,4 @@ public class GUI extends JFrame {
         public void keyReleased(KeyEvent e) {
         }
     }
-
 }
