@@ -10,7 +10,7 @@ import Views.GUI;
 
 public class GameController {
 
-    private static final int TIEMPO_DE_PARTIDA = 5; 
+    private static final int TIEMPO_DE_PARTIDA = 60; 
 
     static private int tiempoRestante = TIEMPO_DE_PARTIDA;
     static GUI gui;
