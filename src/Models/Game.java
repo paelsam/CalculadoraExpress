@@ -1,24 +1,28 @@
 package Models;
 
-public class Game 
-{
-    
-    private static char[] operadores = {'+', '-', '*', '%'};
-    private char operador; 
-    private int numeroUno, numeroDos, resultado;
-    private int aciertos, fallos, puntuacion; 
+public class Game {
 
-    public void obtenerOperaciónAleatoria(int min, int max)
-    {
-        numeroUno = (int)(Math.random() * max) + min;        
-        numeroDos = (int)(Math.random() * max) + min;
-        operador = operadores[(int)(Math.random() * operadores.length)];
+    private static char[] operadores = { '+', '-', '*', '%' };
+    private char operador;
+    private int numeroUno, numeroDos, resultado;
+    private int aciertosTotales, aciertosPartida;
+    private int fallosTotales, fallosPartida;
+    private int puntuacionTotal, puntuacionPartida;
+
+    public Game() {
+        aciertosPartida = 0; aciertosTotales = 0;
+        fallosPartida = 0; fallosTotales = 0;
+        puntuacionPartida = 0; puntuacionTotal = 0;
     }
 
-    public int obtenerResultado()
-    {
-        switch (operador) 
-        {
+    public void obtenerOperaciónAleatoria(int min, int max) {
+        this.numeroUno = (int)(Math.random() * max) + min;
+        this.numeroDos = (int)(Math.random() * max) + min;
+        operador = operadores[(int)(Math.random() *operadores.length)];
+    }
+
+    public int obtenerResultado() {
+        switch (operador) {
             case '+':
                 resultado = numeroUno + numeroDos;
                 break;
@@ -28,7 +32,7 @@ public class Game
             case '*':
                 resultado = numeroUno * numeroDos;
                 break;
-            case '%': 
+            case '%':
                 resultado = numeroUno % numeroDos;
                 break;
             default:
@@ -36,7 +40,6 @@ public class Game
         }
         return resultado;
     }
-
 
     public int getNumeroUno() {
         return this.numeroUno;
@@ -50,34 +53,56 @@ public class Game
         return this.resultado;
     }
 
-    public int getAciertos() {
-        return this.aciertos;
-    }
-
-    public int getFallos() {
-        return this.fallos;
-    }
-
     public char getOperador() {
         return this.operador;
     }
 
-    public int getPuntuacion() {
-        return this.puntuacion;
+    public int getAciertosPartida() {
+        return this.aciertosPartida;
     }
 
-    public void setPuntuacion(int puntuacion) {
-        this.puntuacion = puntuacion;
+    public int getFallosPartida() {
+        return this.fallosPartida;
     }
 
-    public void setAciertos(int aciertos) {
-        this.aciertos = aciertos;
+    public int getPuntuacionPartida() {
+        return this.puntuacionPartida;
     }
 
-     public void setFallos(int fallos) {
-        this.fallos = fallos;
+    public int getAciertosTotales() {
+        return this.aciertosTotales;
     }
-    
+
+    public int getFallosTotales() {
+        return this.fallosTotales;
+    }
+
+    public int getPuntuacionTotal() {
+        return this.puntuacionTotal;
+    }
+
+    public void setPuntuacionPartida(int puntuacionPartida) {
+        this.puntuacionPartida = puntuacionPartida;
+    }
+
+    public void setAciertosPartida(int aciertosPartida) {
+        this.aciertosPartida = aciertosPartida;
+    }
+
+    public void setFallosPartida(int fallosPartida) {
+        this.fallosPartida = fallosPartida;
+    }
+
+    public void setPuntuacionTotal(int puntuacionTotal) {
+        this.puntuacionTotal = puntuacionTotal;
+    }
+
+    public void setAciertosTotales(int aciertosTotales) {
+        this.aciertosTotales = aciertosTotales;
+    }
+
+    public void setFallosTotales(int fallosTotales) {
+        this.fallosTotales = fallosTotales;
+    }
+
 }
-
-

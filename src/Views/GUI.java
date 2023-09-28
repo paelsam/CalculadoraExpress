@@ -8,7 +8,6 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -107,6 +106,8 @@ public class GUI extends JFrame
         lNumero2.setFont(new Font("Comic Sans MS",Font.BOLD,18));
         lNumero1.setForeground(new Color(102,106,156));
         lNumero2.setForeground(new Color(102,106,156));
+        lOperacion.setForeground(new Color(102,106,156));
+
 
         lNumero1.setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE)); 
         lNumero2.setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE));
@@ -153,8 +154,8 @@ public class GUI extends JFrame
         botones[11].setFont(new Font("Comic Sans MS",Font.BOLD,18));
         botones[11].setBackground(new Color(37, 40, 80));
         botones[11].setForeground(Color.WHITE);
-        // Desabilitado por defecto
-        botones[11].setEnabled(false);
+        // Desabilitado por defecto botones[11]
+        toggleCheckButton();
 
         // Añadiendo estlilo al botón de menos
         bMenos.setFont(new Font("Comic Sans MS",Font.BOLD,18));
@@ -268,7 +269,6 @@ public class GUI extends JFrame
     }
 
     public String getResultado() {
-        //! ¿Qué pasa si es un string vacío?
         return lResultado.getText();
     }
 
@@ -284,6 +284,13 @@ public class GUI extends JFrame
         tTiempo.setText(Integer.toString(tiempoRestante));
     }
 
+    public void toggleCheckButton() {
+        if ( botones[11].isEnabled() )
+            botones[11].setEnabled(false);
+        else
+            botones[11].setEnabled(true);
+    }
+
     // Habilita o desabilita el MenuItem iniciarJuego dependiendo de su estado
     public void toggleMIIniciarJuego() {
         if ( miIniciarJuego.isEnabled() )
@@ -291,14 +298,6 @@ public class GUI extends JFrame
         else
             miIniciarJuego.setEnabled(true);
 
-    }
-
-    public int gameOver() {
-        String mensaje = "Aciertos en esta partida" + lNumAciertos.getText() + 
-                            "\nFallos en esta partida: " + lNumFallos.getText()  + 
-                            "\nPuntos en esta partida: " + tPuntuacion.getText() + 
-                            "\n¿Deseas continuar jugando otra partida?";
-        return JOptionPane.showConfirmDialog(this, mensaje, "Partida terminada", JOptionPane.YES_NO_OPTION);
     }
 
     //! Modular 
