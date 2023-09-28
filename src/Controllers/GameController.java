@@ -9,24 +9,28 @@ import Models.Game;
 import Views.GUI;
 
 /**
- * clase GameController: es el controlador del juego que gestiona las
+ * 
+ * Controlador del juego que gestiona las
  * interacciones entre la clase GUI y la clase Game.
- * contiene a la clase GUI y la clase Game.
+ * 
+ * Contiene la clase GUI y la clase Game.
  * 
  * @version 1.0
  */
 public class GameController {
 
     private static final int TIEMPO_DE_PARTIDA = 60;
+    private static int tiempoRestante = TIEMPO_DE_PARTIDA;
 
-    static private int tiempoRestante = TIEMPO_DE_PARTIDA;
-    static GUI gui;
-    static Game game;
-    static Timer temporizador;
+    private static GUI gui;
+    private static Game game;
+    private static Timer temporizador;
 
     /**
-     * funcion que instancia los objetos gui, game, temporizador e invoca la funcion
-     * gui.iniciarGui para que se ejecute el frame y sus componentes.
+     * Instancia los objetos gui, game y temporizador e invoca la funcion
+     * gui.iniciarGui para que se ejecute la clase GUI y sus componentes.
+     * 
+     * @return void
      */
     public static void iniciarVentana() {
         gui = new GUI();
@@ -36,9 +40,11 @@ public class GameController {
     }
 
     /**
-     * funcion que gestiona el temporizador de la GUI para que el tiempo corra en
+     * Gestiona el temporizador de la GUI para que el tiempo corra en
      * forma regresiva y al terminarse se ejecute la funcion
      * juego terminado.
+     * 
+     * @return void
      */
     public static void iniciarCuentaRegresiva() {
         temporizador.scheduleAtFixedRate(new TimerTask() {
@@ -59,15 +65,17 @@ public class GameController {
     }
 
     /**
-     * funcion que inicia el juego, se asigna un estado inicial del los componentes
+     * Inicia el juego, se asigna un estado inicial del los componentes
      * de la GUi relacionados con el la clase Game.
+     * 
+     * @return void 
      */
     public static void iniciarJuego() {
-        // asigando valores a los tributos de la operacion matematica en la clase Game
-        game.obtenerOperaciónAleatoria(1, 40);
+        // Asignando valores a los atributos de la operacion matemática en el objeto game
+        game.obtenerOperacionAleatoria(1, 400);
         game.obtenerResultado();
 
-        // configurando los valores de los componentes de la gui
+        // Asignado los valores del objeto game a al objeto gui
         gui.setNumero1(game.getNumeroUno());
         gui.setNumero2(game.getNumeroDos());
         gui.setOperador(game.getOperador());
@@ -78,19 +86,24 @@ public class GameController {
     }
 
     /**
-     * funcion que verifica que el resultado de la gui sea igual al valor de la
-     * variable resultado del objeto game de la clase Game
-     * y modifica adecuadamente los respectivos componentes de la gui para que se
-     * muestren en pantalla.
+     * Verifica que el texto del label de resultado de la gui sea igual al valor del
+     * atributo resultado del objeto game, y modifica adecuadamente los respectivos 
+     * componentes de la gui para que se muestren en pantalla.
+     * 
+     * @see Models.Game
+     * @see Views.GUI
+     * 
+     * @return void
      */
     public static void verificarResultado() {
 
+        // Si no hay resultado, no se realiza ninguna acción
         if (gui.getResultado().isEmpty())
             return;
 
         int resultadoInput = Integer.parseInt(gui.getResultado());
 
-        // verificando si el resultado que biene de la gui es igual al resultado de game
+        // Verificar si el resultado del objeto gui es igual al resultado del objeto game
 
         if (resultadoInput == game.getResultado()) {
             game.setAciertosPartida(game.getAciertosPartida() + 1);
@@ -106,16 +119,18 @@ public class GameController {
     }
 
     /**
-     * funcion que reinicia el estado del juego, es desir los valores de los
-     * atributos de el objeto game de la clase Game para que
-     * el juego se reinicie y se comience una nueva partida
+     * Reinicia el juego a su estado incial, es decir, los valores de los
+     * atributos del objeto game de la clase Game y de la gui de la clase GUI 
+     * para que el juego se reinicie y se comience una nueva partida
+     * 
+     * @return void
      */
     public static void reiniciar() {
 
         temporizador = new Timer();
         tiempoRestante = TIEMPO_DE_PARTIDA;
 
-        // reiniciando atributos de la clase Game
+        // Reiniciando atributos de la clase Game
         game.setAciertosPartida(0);
         game.setFallosPartida(0);
         game.setPuntuacionPartida(0);
@@ -123,7 +138,7 @@ public class GameController {
         game.setFallosTotales(0);
         game.setPuntuacionTotal(0);
 
-        // reiniciando valores de los componentes de la gui
+        // Reinciando valores de los componentes de la gui
         gui.setNumero1(0);
         gui.setNumero2(0);
         gui.toggleMIIniciarJuego();
@@ -134,10 +149,10 @@ public class GameController {
     }
 
     /**
-     * funcion que muestra un mensaje de finalizacion del juego con los datos de la
+     * Muestra un mensaje de finalizacion del juego con los datos de la
      * partida y pregunta si el usuario desea seguir jugando
      * 
-     * @return JOptionPane- ventana de informacion y opciones
+     * @return {@link javax.swing.JOptionPane.showConfirmDialog } : retorna 0 o 1
      */
     public static int gameOver() {
         String mensaje = "Se acabó el tiempo :(" +
@@ -149,8 +164,10 @@ public class GameController {
     }
 
     /**
-     * funcion que restablece los valore iniciales de algunos atributos del objeto
+     * Reestablece los valores iniciales de algunos atributos del objeto
      * game de la clase Game y reinicia el juego.
+     * 
+     * @return void
      */
     public static void juegoTerminado() {
         int respuesta = gameOver();
@@ -164,11 +181,13 @@ public class GameController {
             // Restableciendo el timer
             temporizador = new Timer();
             tiempoRestante = TIEMPO_DE_PARTIDA;
+            
             iniciarJuego();
             iniciarCuentaRegresiva();
-        } else {
+        } if ( respuesta == 1) {
             reiniciar();
             gui.toggleCheckButton();
         }
+        return;
     }
 }

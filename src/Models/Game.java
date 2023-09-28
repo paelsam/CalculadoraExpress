@@ -1,6 +1,6 @@
 package Models;
 
-/*
+/**
  * Clase Game: implementa la logica de el juego.Esta clase esta contenida en la clase Gamecontroller
  * @version 1.0
  */
@@ -36,17 +36,17 @@ public class Game {
      * 
      * @return void
      */
-    public void obtenerOperaciónAleatoria(int min, int max) {
+    public void obtenerOperacionAleatoria(int min, int max) {
         this.numeroUno = (int) (Math.random() * max) + min;
         this.numeroDos = (int) (Math.random() * max) + min;
         operador = operadores[(int) (Math.random() * operadores.length)];
     }
 
-    /*
-     * funcion que asigna una determinada operacion matematica entre las variable
+    /**
+     * Asigna una determinada operacion matematica entre las variable
      * numeroUno y numeroDos
      * 
-     * @return int resultado- resultado de la operacion matematica
+     * @return resultado Entero del resultado de la operacion matematica
      */
     public int obtenerResultado() {
         switch (operador) {
@@ -69,18 +69,18 @@ public class Game {
     }
 
     /**
-     * getter
+     * Obtiene el valor de numeroUno
      * 
-     * @return variable numeroUno
+     * @return numeroUno
      */
     public int getNumeroUno() {
         return this.numeroUno;
     }
 
     /**
-     * getter
+     *  Obtiene el valor de numeroDos
      * 
-     * @return vairable numeroDos
+     * @return numeroDos
      */
 
     public int getNumeroDos() {
@@ -88,72 +88,72 @@ public class Game {
     }
 
     /**
-     * getter
+     * Obtiene el valor del resultado
      * 
-     * @return variable resultado
+     * @return resultado
      */
     public int getResultado() {
         return this.resultado;
     }
 
     /**
-     * getter
+     * Obtiene el valor del operador
      * 
-     * @return variable operador
+     * @return operador
      */
     public char getOperador() {
         return this.operador;
     }
 
     /**
-     * getter
+     * Obtiene el valor de los aciertos en la partida
      * 
-     * @return variable aciertosPartida
+     * @return aciertosPartida
      */
     public int getAciertosPartida() {
         return this.aciertosPartida;
     }
 
     /**
-     * getter
+     * Obtiene el valor de los fallos en la partida
      * 
-     * @return variable fallosPartida
+     * @return fallosPartida
      */
     public int getFallosPartida() {
         return this.fallosPartida;
     }
 
     /**
-     * getter
+     *  Obtiene el valor de la puntuación en la partida
      * 
-     * @return variable puntuacionPartida
+     * @return puntuacionPartida
      */
     public int getPuntuacionPartida() {
         return this.puntuacionPartida;
     }
 
     /**
-     * getter
+     *  Obtiene el valor de los aciertos totales
      * 
-     * @return variable aciertosTotales
+     * @return aciertosTotales
      */
     public int getAciertosTotales() {
         return this.aciertosTotales;
     }
 
     /**
-     * getter
+     * Obtiene el valor de los fallos totales
      * 
-     * @return variable fallosTotales
+     * @return fallosTotales
      */
     public int getFallosTotales() {
         return this.fallosTotales;
     }
 
     /**
-     * getter
+     *  Obtiene el valor de la puntuación total
      * 
-     * @return variable puntuacionTotal
+     *  @return puntuacionTotal
      */
     public int getPuntuacionTotal() {
         return this.puntuacionTotal;
@@ -162,7 +162,7 @@ public class Game {
     /**
      * setter
      * 
-     * @param puntuacionPartida - entero que representa la puntuacion de la partida
+     * @param puntuacionPartida entero que representa la puntuacion de la partida
      */
     public void setPuntuacionPartida(int puntuacionPartida) {
         this.puntuacionPartida = puntuacionPartida;
@@ -178,38 +178,44 @@ public class Game {
     }
 
     /**
-     * setter
+     * Modifica el valor de los fallos en partida
      * 
      * @param fallosPartida - entero que representa los fallos de la partida
+     * 
+     * @return void
      */
     public void setFallosPartida(int fallosPartida) {
         this.fallosPartida = fallosPartida;
     }
 
     /**
-     * setter
+     * Modifica el valor de la puntuación total
      * 
      * @param puntuacionTotal - entero que representa la puntuacion total de la
      *                        partida
+     * @return void
      */
     public void setPuntuacionTotal(int puntuacionTotal) {
         this.puntuacionTotal = puntuacionTotal;
     }
 
     /**
-     * setter
+     * Modifica el valor de los aciertos totales
      * 
-     * @param aciertosTotales - entero que representa los aciertos de la partida
+     * @param aciertosTotales entero que representa los aciertos de la partida
+     * 
+     * @return void
      */
-
     public void setAciertosTotales(int aciertosTotales) {
         this.aciertosTotales = aciertosTotales;
     }
 
     /**
-     * setter
+     * Modifica el valor de los fallos totales
      * 
-     * @param fallosTotales- entero que representa los fallos totales
+     * @param fallosTotales Entero que representa los aciertos de la partida
+     * 
+     * @return void
      */
     public void setFallosTotales(int fallosTotales) {
         this.fallosTotales = fallosTotales;

@@ -25,10 +25,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class GUI extends JFrame 
-{
-    private static int[] ordenBotones = {7,8,9,4,5,6,1,2,3,10,0,11};
-    
+/**
+ * Clase encargada de manejar la pantalla del juego
+ * y configurar sus respectivos componentes
+ */
+public class GUI extends JFrame {
+    private static int[] ordenBotones = { 7, 8, 9, 4, 5, 6, 1, 2, 3, 10, 0, 11 };
+
     // Páneles
     JPanel pAciertosFallos, pNumeros, pContenedorNumeros;
     JPanel pValoresAleatorios, pTiempoPuntuacion, pNorte;
@@ -52,6 +55,8 @@ public class GUI extends JFrame
 
     /**
      * Contructor de la clase GUI
+     * 
+     * Configura todas las características que tendrá la pantalla
      */
     public GUI() {
         setTitle("Calculadora Express");
@@ -61,11 +66,12 @@ public class GUI extends JFrame
         setBackground(new Color(225, 228, 253));
     }
 
-    public void iniciarGUI()
-    {
+    public void iniciarGUI() {
+        // Instanciando botones
         botones = new JButton[12];
         bMenos = new JButton("-");
 
+        // Instanciando elementos del menú
         mbMenu = new JMenuBar();
         mMenu = new JMenu("Menu");
         miIniciarJuego = new JMenuItem("Iniciar Juego");
@@ -74,21 +80,53 @@ public class GUI extends JFrame
         lFallos = new JLabel("Fallos: ");
         lNumAciertos = new JLabel();
         lNumFallos = new JLabel();
+
+        // Instanciando los labels de tiempo y punación
         lTiempo = new JLabel("Tiempo restante: ");
         lPuntuacion = new JLabel("Puntuación: ");
 
+        // Instanciando los JTextFields que contendrán los valores
+        // del tiempo y la puntuación de cada partida
+        tTiempo = new JTextField();
+        tPuntuacion = new JTextField();
+
+        // Deshabilitada la edición de los JTextFields por defecto
+        tTiempo.setEditable(false);
+        tPuntuacion.setEditable(false);
+
+        // Instanciando los labels que contendrán los números aleatorios
         lIgual = new JLabel("=");
         lNumero1 = new JLabel();
         lOperacion = new JLabel();
         lNumero2 = new JLabel();
         lResultado = new JLabel();
 
-        tTiempo = new JTextField();
-        tPuntuacion = new JTextField();
+        // Instanciando todos los botones y añadiendoles estilos
+        for (int i = 0; i < 12; i++) {
+            botones[i] = new JButton(Integer.toString(i));
+            botones[i].setFont(new Font("Comic Sans MS", Font.BOLD, 18));
+            botones[i].setBackground(new Color(37, 40, 80));
+            botones[i].setForeground(Color.WHITE);
+        }
+        botones[10] = new JButton(new ImageIcon(getClass().getResource("/assets/borrar.png")));
+        botones[10].setFont(new Font("Comic Sans MS", Font.BOLD, 18));
+        botones[10].setBackground(new Color(37, 40, 80));
+        botones[10].setForeground(Color.WHITE);
 
-        tTiempo.setEditable(false);
-        tPuntuacion.setEditable(false);
+        botones[11] = new JButton(new ImageIcon(getClass().getResource("/assets/check.png")));
+        botones[11].setFont(new Font("Comic Sans MS", Font.BOLD, 18));
+        botones[11].setBackground(new Color(37, 40, 80));
+        botones[11].setForeground(Color.WHITE);
+        // Desabilitado por defecto botones[11]: checkButton
+        toggleCheckButton();
 
+        // Añadiendo estlilo al botón de menos
+        bMenos.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
+        bMenos.setBackground(new Color(37, 40, 80));
+        bMenos.setForeground(Color.WHITE);
+        bMenos.setFocusable(false);
+
+        // Deshabilitando el focus de todos los componentes posibles
         tTiempo.setFocusable(false);
         tPuntuacion.setFocusable(false);
         lIgual.setFocusable(false);
@@ -117,14 +155,14 @@ public class GUI extends JFrame
         lResultado.setVerticalAlignment(SwingConstants.CENTER);
 
         // Añadiendo bordes y estilo a los labels
-        lNumero2.setHorizontalAlignment(JLabel.CENTER); lNumero2.setVerticalAlignment(JLabel.CENTER);
-        lNumero2.setFont(new Font("Comic Sans MS",Font.BOLD,18));
-        lNumero1.setForeground(new Color(102,106,156));
-        lNumero2.setForeground(new Color(102,106,156));
-        lOperacion.setForeground(new Color(102,106,156));
+        lNumero2.setHorizontalAlignment(JLabel.CENTER);
+        lNumero2.setVerticalAlignment(JLabel.CENTER);
+        lNumero2.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
+        lNumero1.setForeground(new Color(102, 106, 156));
+        lNumero2.setForeground(new Color(102, 106, 156));
+        lOperacion.setForeground(new Color(102, 106, 156));
 
-
-        lNumero1.setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE)); 
+        lNumero1.setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE));
         lNumero2.setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE));
         lNumero1.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
 
@@ -153,32 +191,17 @@ public class GUI extends JFrame
         lNumAciertos.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
         lNumFallos.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
 
-        // Definiendo los botones
-        for (int i = 0; i < 12; i++) {
-            botones[i] = new JButton(Integer.toString(i));
-            botones[i].setFont(new Font("Comic Sans MS", Font.BOLD, 18));
-            botones[i].setBackground(new Color(37, 40, 80));
-            botones[i].setForeground(Color.WHITE);
-        }
-        botones[10] = new JButton(new ImageIcon(getClass().getResource("/assets/borrar.png")));
-        botones[10].setFont(new Font("Comic Sans MS", Font.BOLD, 18));
-        botones[10].setBackground(new Color(37, 40, 80));
-        botones[10].setForeground(Color.WHITE);
+        // Dando formato y ubicacion a algunos componentes de la gui
+        lTiempo.setHorizontalAlignment(SwingConstants.CENTER);
+        lTiempo.setVerticalAlignment(SwingConstants.CENTER);
+        lTiempo.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
 
-        botones[11] = new JButton(new ImageIcon(getClass().getResource("/assets/check.png")));
-        botones[11].setFont(new Font("Comic Sans MS", Font.BOLD, 18));
-        botones[11].setBackground(new Color(37, 40, 80));
-        botones[11].setForeground(Color.WHITE);
-        // Desabilitado por defecto botones[11]
-        toggleCheckButton();
-
-        // Añadiendo estlilo al botón de menos
-        bMenos.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
-        bMenos.setBackground(new Color(37, 40, 80));
-        bMenos.setForeground(Color.WHITE);
-        bMenos.setFocusable(false);
+        lPuntuacion.setHorizontalAlignment(SwingConstants.CENTER);
+        lPuntuacion.setVerticalAlignment(SwingConstants.CENTER);
+        lPuntuacion.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
 
         // Creado panel de manera externa para centrar los labels
+        // De los valores aleatorios
         FlowLayout panel = new FlowLayout(FlowLayout.CENTER, 20, 20);
         panel.setVgap(60);
 
@@ -189,6 +212,21 @@ public class GUI extends JFrame
         pValoresAleatorios = new JPanel(panel);
         pTiempoPuntuacion = new JPanel(new GridLayout(1, 4));
         pNorte = new JPanel(new BorderLayout());
+
+        // Dando belleza a los algunos paneles
+        pAciertosFallos.setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE));
+        pValoresAleatorios.setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE));
+        pNumeros.setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE));
+        pTiempoPuntuacion.setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE));
+
+        pAciertosFallos.setBackground(new Color(225, 228, 253));
+        pValoresAleatorios.setBackground(new Color(225, 228, 253));
+        pTiempoPuntuacion.setBackground(new Color(225, 228, 253));
+
+        pTiempoPuntuacion.add(lTiempo);
+        pTiempoPuntuacion.add(tTiempo);
+        pTiempoPuntuacion.add(lPuntuacion);
+        pTiempoPuntuacion.add(tPuntuacion);
 
         mbMenu.add(mMenu);
         mMenu.add(miIniciarJuego);
@@ -203,49 +241,29 @@ public class GUI extends JFrame
             pNumeros.add(botones[indice]);
         }
 
-        pValoresAleatorios.add(lNumero1); pValoresAleatorios.add(lOperacion);
-        pValoresAleatorios.add(lNumero2); pValoresAleatorios.add(lIgual);
+        pValoresAleatorios.add(lNumero1);
+        pValoresAleatorios.add(lOperacion);
+        pValoresAleatorios.add(lNumero2);
+        pValoresAleatorios.add(lIgual);
         pValoresAleatorios.add(lResultado);
 
-        // dando formato y ubicacion a algunos componentes de la gui
-        lTiempo.setHorizontalAlignment(SwingConstants.CENTER);
-        lTiempo.setVerticalAlignment(SwingConstants.CENTER);
-        lTiempo.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
-
-        lPuntuacion.setHorizontalAlignment(SwingConstants.CENTER);
-        lPuntuacion.setVerticalAlignment(SwingConstants.CENTER);
-        lPuntuacion.setFont(new Font("Comic Sans MS",Font.BOLD,18)); 
-
-        pTiempoPuntuacion.add(lTiempo);
-        pTiempoPuntuacion.add(tTiempo);
-        pTiempoPuntuacion.add(lPuntuacion);
-        pTiempoPuntuacion.add(tPuntuacion);
-
-        // dando belleza a los algunos paneles
-        pAciertosFallos.setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE));
-        pValoresAleatorios.setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE));
-        pNumeros.setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE));
-        pTiempoPuntuacion.setBorder(BorderFactory.createBevelBorder(WIDTH, Color.lightGray, Color.WHITE));
-
-        pAciertosFallos.setBackground(new Color(225, 228, 253));
-        pValoresAleatorios.setBackground(new Color(225, 228, 253));
-        pTiempoPuntuacion.setBackground(new Color(225, 228, 253));
-
-        // adicionando algunos botones al panel que contine los botones de numeros
+        // Adicionando algunos botones al panel que contine los botones de numeros
         pContenedorNumeros.add(bMenos, BorderLayout.NORTH);
         pContenedorNumeros.add(pNumeros, BorderLayout.CENTER);
 
-        pNorte.add(mbMenu, BorderLayout.NORTH); pNorte.add(pAciertosFallos, BorderLayout.SOUTH);
-        
+        pNorte.add(mbMenu, BorderLayout.NORTH);
+        pNorte.add(pAciertosFallos, BorderLayout.SOUTH);
+
         add(pNorte, BorderLayout.NORTH);
         add(pValoresAleatorios, BorderLayout.CENTER);
         add(pContenedorNumeros, BorderLayout.EAST);
         add(pTiempoPuntuacion, BorderLayout.SOUTH);
 
+        // Eventos
         ActionEventHandler event = new ActionEventHandler();
 
         // Añadiendo EventListeners
-        for ( JButton boton : botones ) {
+        for (JButton boton : botones) {
             boton.setFocusable(false);
             boton.addActionListener(event);
         }
@@ -255,14 +273,15 @@ public class GUI extends JFrame
         bMenos.addActionListener(event);
         miIniciarJuego.addActionListener(event);
 
+        // pack: Ajusta todos los componentes al tamaño de la ventana
         pack();
         setVisible(true);
     }
 
     /**
-     * funcion que configura el texto de la etiqueta de aciertos
+     * Configura el texto de la etiqueta de aciertos
      * 
-     * @param aciertos- entero que representa los aciertos del juego
+     * @param aciertos Entero que representa los aciertos del juego
      */
     public void setAciertos(int aciertos) {
         lNumAciertos.setText(Integer.toString(aciertos));
@@ -271,16 +290,16 @@ public class GUI extends JFrame
     /**
      * funcion que configura el texto de la etiqueta de fallos
      * 
-     * @param fallos- entero que representa los fallos del juego
+     * @param fallos Entero que representa los fallos del juego
      */
     public void setFallos(int fallos) {
         lNumFallos.setText(Integer.toString(fallos));
     }
 
     /**
-     * funcion que configura el texto de la etiqueta numero1 de la gui
+     * Configura el texto de la etiqueta numero1 de la gui
      * 
-     * @param numero1 - entero que representa el numero uno de la ecuacion
+     * @param numero1 Entero que representa el numero uno de la ecuacion
      *                matematica
      */
     public void setNumero1(int numero1) {
@@ -292,12 +311,10 @@ public class GUI extends JFrame
     }
 
     /**
-     * funcion que configura el texto de la etiqueta numero 2 de la gui
+     * Configura el texto de la etiqueta numero 2 de la gui
      * 
-     * @param numero2 - entero que representa el numero dos de la ecuacion
-     *                matematica
+     * @param numero2 Entero que representa el numero dos de la ecuación matematica
      */
-
     public void setNumero2(int numero2) {
         if (numero2 == 0) {
             lNumero2.setText("");
@@ -307,23 +324,28 @@ public class GUI extends JFrame
     }
 
     /**
-     * funcion que configura el texto de la etiqueta operador de la gui
+     * Configura el texto de la etiqueta operador de la gui
      * 
-     * @param numero1 - caracter que representa el operador de la ecuacion
-     *                matematica
+     * @param operador Caracter que representa el operador de la ecuacion
+     *                 matematica
      */
     public void setOperador(char operador) {
         lOperacion.setText(Character.toString(operador));
     }
-    
+
+    /**
+     * Configura el texto del componente lResultado de la gui
+     * 
+     * @param resultado String que representa el el resultado del label lResultado
+     */
     public void setResultado(String resultado) {
         lResultado.setText(lResultado.getText() + resultado);
     }
 
     /**
-     * funcion que saca el texto de la etiqueta resultado
+     * Obtiene el texto de la etiqueta resultado
      * 
-     * @return lResultado - String de la etiqueta resultado de la gui.
+     * @return lResltado String de la etiqueta resultado de la gui.
      */
 
     public String getResultado() {
@@ -331,61 +353,77 @@ public class GUI extends JFrame
     }
 
     /**
-     * funcion que borra el texto de la etiqueta resultado de la gui
+     * Borra el texto de la etiqueta resultado de la gui
+     * 
+     * @return void
      */
     public void deleteResultado() {
         lResultado.setText("");
     }
 
     /**
-     * funcion que configura el campo de texto de la puntuacion de la gui
+     * Configura el campo de texto de la puntuacion de la gui
      * 
-     * @param puntuacion- entero que representa la puntuacion del juego
+     * @param puntuacion entero que representa la puntuacion del juego
+     * 
+     * @return void
      */
     public void setPuntuacion(int puntuacion) {
         tPuntuacion.setText(Integer.toString(puntuacion));
     }
 
     /**
-     * funcion que configura el campo de texto del tiempo de la gui
+     * Configura el campo de texto del tiempo de la gui
      * 
-     * @param tiempoRestante - entero que representa el tiempo restante de la
+     * @param tiempoRestante Entero que representa el tiempo restante de la
      *                       partida
+     * 
+     * @return void
      */
     public void setTiempoRestante(int tiempoRestante) {
         tTiempo.setText(Integer.toString(tiempoRestante));
     }
 
     /**
-     * funcion que desabilita el boton de check
+     * Habilita/Desabilita el boton de check (botones[11])
+     * 
+     * @return void
      */
     public void toggleCheckButton() {
         if (botones[11].isEnabled())
             botones[11].setEnabled(false);
-
+        else
+            botones[11].setEnabled(true);
     }
 
-    // Habilita o desabilita el MenuItem iniciarJuego dependiendo de su estado
+    /**
+     * Habilita/Desabilita el MenuItem iniciarJuego dependiendo de su estado
+     * 
+     * @return void
+     */
     public void toggleMIIniciarJuego() {
         if (miIniciarJuego.isEnabled())
             miIniciarJuego.setEnabled(false);
         else
             miIniciarJuego.setEnabled(true);
-
     }
 
-    //! Modular 
     public class ActionEventHandler implements ActionListener, KeyListener {
 
-
+        /**
+         * Se ejucuta cuando se hacer cualquier acción en
+         * la pantalla
+         * 
+         * @return void
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            if ( e.getSource() == bMenos ) {
-                if ( !lResultado.getText().contains("-") )
-                    lResultado.setText( "-" + lResultado.getText() );
-                else 
-                    lResultado.setText( lResultado.getText().substring(1) );
+            if (e.getSource() == bMenos) {
+                if (!lResultado.getText().contains("-"))
+                    lResultado.setText("-" + lResultado.getText());
+                else
+                    lResultado.setText(lResultado.getText().substring(1));
             }
 
             if (e.getSource() == miIniciarJuego) {
@@ -405,7 +443,7 @@ public class GUI extends JFrame
                     GameController.verificarResultado();
                     GameController.iniciarJuego();
                     // Se borra después de inciar el juego
-                    deleteResultado(); 
+                    deleteResultado();
                     break;
                 }
                 if (e.getSource() == botones[indice]) {
@@ -416,20 +454,22 @@ public class GUI extends JFrame
         }
 
         /**
-         * metodo que implemeta los metodos abstractos de la clase abstracta
-         * KeyListener para el manejo de los
-         * eventos del teclado
+         * Implemeta los métodos abstractos de la clase abstracta
+         * KeyListener para el manejo de los eventos del teclado.
+         * Se ejecuta cuando una recla es presionada.
+         * 
+         * @return void
          */
         @Override
         public void keyPressed(KeyEvent e) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_ENTER:
                     // No funciona hasta hasta que el menuitem esté deshabilado
-                    if ( !miIniciarJuego.isEnabled() ) {
+                    if (!miIniciarJuego.isEnabled()) {
                         GameController.verificarResultado();
                         GameController.iniciarJuego();
                         // Se borra después de inciar el juego
-                        deleteResultado(); 
+                        deleteResultado();
                     }
                     break;
                 case KeyEvent.VK_BACK_SPACE:
@@ -441,20 +481,31 @@ public class GUI extends JFrame
                 default:
                     break;
             }
-            // El 1 al 9 porque los botones 10 y 11 no son números
-            for ( int i = 0; i <= 9; i++ ) {
-                int keyCodeE = KeyEvent.getExtendedKeyCodeForChar( botones[i].getText().charAt(0) );
-                if ( keyCodeE == e.getKeyCode() ) {
-                    setResultado( botones[i].getText() );
+            // DEl 0 al 9 porque los botones 10 y 11 no son números
+            for (int i = 0; i <= 9; i++) {
+                int keyCodeE = KeyEvent.getExtendedKeyCodeForChar(botones[i].getText().charAt(0));
+                if (keyCodeE == e.getKeyCode()) {
+                    setResultado(botones[i].getText());
                     break;
                 }
             }
         }
 
+        /**
+         * Ejecuta una acción cuando una tecla es presionada, pero no acepta teclas
+         * especiales
+         * 
+         * @return void
+         */
         @Override
         public void keyTyped(KeyEvent e) {
         }
 
+        /**
+         * Ejecuta una acción cuando una tecla es presionada y luego soltada
+         * 
+         * @return void
+         */
         @Override
         public void keyReleased(KeyEvent e) {
         }
