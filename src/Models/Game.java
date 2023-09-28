@@ -1,7 +1,7 @@
 package Models;
 
 /*
- * Clase Game: implementa la logica de el juego.Esta clase esta contenida en la clase controller
+ * Clase Game: implementa la logica de el juego.Esta clase esta contenida en la clase Gamecontroller
  * @version 1.0
  */
 

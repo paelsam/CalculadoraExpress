@@ -27,7 +27,7 @@ import java.awt.event.KeyListener;
 
 /**
  * clase GUI: clase que hereda de JFrame y es la que genera la vista o el
- * frontend del juego. Esta clase usa a la clase Controlador
+ * frontend del juego. Esta clase usa a la clase GameController
  * 
  * @version 1.0
  * 
@@ -446,7 +446,7 @@ public class GUI extends JFrame {
         }
 
         /**
-         * metodo abstracto que implemeta los metodos abstractos de la clase abstracta
+         * metodo que implemeta los metodos abstractos de la clase abstracta
          * KeyListener para el manejo de los
          * eventos del teclado
          */
